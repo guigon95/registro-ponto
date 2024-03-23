@@ -5,12 +5,14 @@ import com.hackathon.registroponto.adapter.dto.RegistroPontoRequest;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoResponse;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoResponses;
 import com.hackathon.registroponto.adapter.mapper.RegistroPontoMapper;
+import com.hackathon.registroponto.domain.model.RegistroPonto;
 import com.hackathon.registroponto.domain.usecase.RegistroPontoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -36,11 +38,19 @@ public class RegistroPontoController {
         List<RegistroPontoResponses> lista = new ArrayList<>();
         registrosByData.forEach((data, registroPontos) -> {
             var responses = RegistroPontoResponses.builder().dataRegistro(data);
-            responses.registroPontoResponse(registroPontos.stream().map(registroPontoMapper::registroPontoToRegistroPontoResponse).toList());
+            List<RegistroPontoResponse> list = registroPontos
+                    .stream()
+                    .map(registroPontoMapper::registroPontoToRegistroPontoResponse)
+                    //
+                    .toList();
+
+            responses.registroPontoResponse(list);
+
+
             lista.add(responses.build());
         });
 
-        return lista;
+        return lista.stream().sorted(Comparator.comparing(RegistroPontoResponses::getDataRegistro)).toList();
 
     }
 }

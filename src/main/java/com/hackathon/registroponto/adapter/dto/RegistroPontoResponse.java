@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -13,9 +14,7 @@ import java.util.UUID;
 @Data
 public class RegistroPontoResponse {
 
-    private LocalDate dataPonto;
-
-    private LocalTime horaPonto;
+    private LocalDateTime dataHoraPonto;
 
     private UUID funcionarioId;
 }

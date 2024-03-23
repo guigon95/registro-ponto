@@ -20,7 +20,6 @@ public class RegistroPonto {
     private LocalDateTime dataHoraPonto;
 
     private UUID funcionarioId;
-
     public LocalDate getData(){
         return dataHoraPonto.toLocalDate();
     }
