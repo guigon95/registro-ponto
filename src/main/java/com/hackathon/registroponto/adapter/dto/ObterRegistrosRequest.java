@@ -1,20 +1,21 @@
 package com.hackathon.registroponto.adapter.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Data
-public class RegistroPontoResponse {
+@Builder
+public class ObterRegistrosRequest {
 
-    private LocalDateTime dataHoraPonto;
+    UUID funcionarioId;
 
-    private UUID funcionarioId;
+    LocalDateTime dataInicio;
+
+    LocalDateTime dataFim;
 }

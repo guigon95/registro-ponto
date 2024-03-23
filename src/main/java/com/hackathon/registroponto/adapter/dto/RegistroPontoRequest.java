@@ -1,22 +1,20 @@
 package com.hackathon.registroponto.adapter.dto;
 
-import com.hackathon.registroponto.domain.TipoRegistro;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.UUID;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
-public class RegistroPontoRequest {
+public class RegistroPontoRequest implements Serializable {
 
-    @Enumerated(EnumType.STRING)
-    private TipoRegistro tipoRegistro;
-
-    private UUID funcionarioId;
+    @JsonProperty("funcionarioId")
+    public UUID funcionarioId;
 }
