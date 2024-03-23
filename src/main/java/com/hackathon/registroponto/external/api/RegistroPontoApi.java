@@ -1,8 +1,10 @@
 package com.hackathon.registroponto.external.api;
 
 import com.hackathon.registroponto.adapter.controller.RegistroPontoController;
+import com.hackathon.registroponto.adapter.dto.ObterRegistrosRequest;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoRequest;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoResponse;
+import com.hackathon.registroponto.adapter.dto.RegistroPontoResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/registro-ponto")
@@ -36,5 +40,10 @@ public class RegistroPontoApi {
                     content = @Content) })
     public ResponseEntity<RegistroPontoResponse> registrar(@RequestBody @Valid RegistroPontoRequest registroPontoRequest) {
         return registroPontoController.registrarPonto(registroPontoRequest);
+    }
+
+    @GetMapping
+    public List<RegistroPontoResponses> registrar(@RequestBody @Valid ObterRegistrosRequest obterRegistrosRequest) {
+        return registroPontoController.obterRegistros(obterRegistrosRequest);
     }
 }

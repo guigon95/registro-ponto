@@ -1,6 +1,5 @@
 package com.hackathon.registroponto.adapter.dto;
 
-import com.hackathon.registroponto.domain.TipoRegistro;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -17,9 +16,6 @@ public class RegistroPontoResponse {
     private LocalDate dataPonto;
 
     private LocalTime horaPonto;
-
-    @Enumerated(EnumType.STRING)
-    private TipoRegistro tipoRegistro;
 
     private UUID funcionarioId;
 }
