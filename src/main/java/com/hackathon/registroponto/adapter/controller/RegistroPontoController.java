@@ -1,19 +1,15 @@
 package com.hackathon.registroponto.adapter.controller;
 
-import com.hackathon.registroponto.adapter.dto.ObterRegistrosRequest;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoRequest;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoResponse;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoResponses;
+import com.hackathon.registroponto.adapter.dto.*;
 import com.hackathon.registroponto.adapter.mapper.RegistroPontoMapper;
-import com.hackathon.registroponto.domain.model.RegistroPonto;
 import com.hackathon.registroponto.domain.usecase.RegistroPontoUseCase;
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,28 +25,18 @@ public class RegistroPontoController {
 
     }
 
-    public List<RegistroPontoResponses> obterRegistros(ObterRegistrosRequest obterRegistrosRequest){
+    public RelatorioResponse obterRegistros(ObterRegistrosRequest obterRegistrosRequest){
         var obterRegistros = registroPontoMapper.obterRegistrosRequestToObterRegistros(obterRegistrosRequest);
 
 
         var registrosByData = registroPontoUseCase.obterRegistros(obterRegistros);
 
-        List<RegistroPontoResponses> lista = new ArrayList<>();
-        registrosByData.forEach((data, registroPontos) -> {
-            var responses = RegistroPontoResponses.builder().dataRegistro(data);
-            List<RegistroPontoResponse> list = registroPontos
-                    .stream()
-                    .map(registroPontoMapper::registroPontoToRegistroPontoResponse)
-                    //
-                    .toList();
+        return registroPontoMapper.relatorioToRelatorioResponse(registrosByData);
 
-            responses.registroPontoResponse(list);
+    }
 
+    public ByteArrayOutputStream gerarRelatorio(UUID funcionarioId) throws DocumentException {
 
-            lista.add(responses.build());
-        });
-
-        return lista.stream().sorted(Comparator.comparing(RegistroPontoResponses::getDataRegistro)).toList();
-
+        return registroPontoUseCase.gerarRelatorio(funcionarioId);
     }
 }

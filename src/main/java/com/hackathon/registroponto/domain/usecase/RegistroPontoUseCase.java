@@ -1,15 +1,19 @@
 package com.hackathon.registroponto.domain.usecase;
 
+import com.hackathon.registroponto.adapter.dto.RelatorioResponse;
 import com.hackathon.registroponto.domain.model.ObterRegistros;
 import com.hackathon.registroponto.domain.model.RegistroPonto;
+import com.hackathon.registroponto.domain.model.Relatorio;
+import com.itextpdf.text.DocumentException;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 public interface RegistroPontoUseCase {
     
     RegistroPonto registrarPonto(RegistroPonto registroPonto);
 
-    Map<LocalDate, List<RegistroPonto>> obterRegistros(ObterRegistros obterRegistros);
+    Relatorio obterRegistros(ObterRegistros obterRegistros);
+
+    ByteArrayOutputStream gerarRelatorio(UUID funcionarioId) throws DocumentException;
 }

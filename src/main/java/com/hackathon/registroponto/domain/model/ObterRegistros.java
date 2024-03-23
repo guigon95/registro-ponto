@@ -3,6 +3,7 @@ package com.hackathon.registroponto.domain.model;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -13,5 +14,7 @@ public class ObterRegistros {
 
     UUID funcionarioId;
 
-    LocalDate dataPonto;
+    LocalDateTime dataInicio;
+
+    LocalDateTime dataFim;
 }

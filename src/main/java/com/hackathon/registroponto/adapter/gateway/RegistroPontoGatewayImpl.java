@@ -32,12 +32,7 @@ public class RegistroPontoGatewayImpl implements RegistroPontoGateway {
     @Override
     public List<RegistroPonto> obterRegistros(ObterRegistros obterRegistros) {
 
-        RegistroPontoEntity build = RegistroPontoEntity.builder()
-                .funcionarioId(obterRegistros.getFuncionarioId())
-                .build();
-
-
-        List<RegistroPontoEntity> all = registroPontoRepository.findAll(Example.of(build), Sort.by(Sort.Direction.ASC, "funcionarioId"));
+        List<RegistroPontoEntity> all = registroPontoRepository.findByFuncionarioIdAndDataHoraPontoGreaterThanEqualAndDataHoraPontoLessThanEqual(obterRegistros.getFuncionarioId(), obterRegistros.getDataInicio(), obterRegistros.getDataFim(), Sort.by(Sort.Direction.ASC, "funcionarioId"));
 
 
         return all.stream().map(registroPontoMapper::registroPontoEntityToRegistroPonto).toList();

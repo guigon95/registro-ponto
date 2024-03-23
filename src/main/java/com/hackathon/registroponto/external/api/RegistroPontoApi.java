@@ -1,10 +1,9 @@
 package com.hackathon.registroponto.external.api;
 
 import com.hackathon.registroponto.adapter.controller.RegistroPontoController;
-import com.hackathon.registroponto.adapter.dto.ObterRegistrosRequest;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoRequest;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoResponse;
-import com.hackathon.registroponto.adapter.dto.RegistroPontoResponses;
+import com.hackathon.registroponto.adapter.dto.*;
+import com.hackathon.registroponto.domain.usecase.RegistroPontoUseCase;
+import com.itextpdf.text.DocumentException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,11 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/registro-ponto")
@@ -26,6 +28,7 @@ import java.util.List;
 public class RegistroPontoApi {
 
     private final RegistroPontoController registroPontoController;
+    private final RegistroPontoUseCase registroPontoUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,7 +46,20 @@ public class RegistroPontoApi {
     }
 
     @GetMapping
-    public List<RegistroPontoResponses> registrar(@RequestBody @Valid ObterRegistrosRequest obterRegistrosRequest) {
+    public RelatorioResponse registrar(@RequestBody @Valid ObterRegistrosRequest obterRegistrosRequest) {
         return registroPontoController.obterRegistros(obterRegistrosRequest);
+    }
+
+    @PostMapping("/pdf")
+    public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request) throws DocumentException {
+
+        ByteArrayOutputStream pdfStream = registroPontoUseCase.gerarRelatorio(request.getFuncionarioId());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=registros_pontos.pdf");
+        headers.setContentLength(pdfStream.size());
+
+        return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
     }
 }
