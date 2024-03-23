@@ -6,5 +6,4 @@ public interface RegistroPontoUseCase {
     
     RegistroPonto registrarPonto(RegistroPonto registroPonto);
 
-
 }
