@@ -28,7 +28,6 @@ import java.io.IOException;
 public class RegistroPontoApi {
 
     private final RegistroPontoController registroPontoController;
-    private final RegistroPontoUseCase registroPontoUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -50,10 +49,10 @@ public class RegistroPontoApi {
         return registroPontoController.obterRegistros(obterRegistrosRequest);
     }
 
-    //@PostMapping("/pdf")
-    public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request) throws DocumentException {
+    @PostMapping("/pdf")
+    public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request) throws Exception {
 
-        ByteArrayOutputStream pdfStream = registroPontoUseCase.gerarRelatorio(request.getFuncionarioId());
+        ByteArrayOutputStream pdfStream = registroPontoController.gerarRelatorio(request.getFuncionarioId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
