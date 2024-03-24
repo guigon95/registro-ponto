@@ -12,7 +12,7 @@ on:
   push:
 
 env:
-  ECS_CLUSTER: test-cluster
+  ECS_CLUSTER: registro-ponto-cluster
   ECR_REPOSITORY: registro-ponto
 
 jobs:
@@ -92,7 +92,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition registro-pontos:latest --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition registro-pontos:1 --query taskDefinition > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -106,7 +106,7 @@ jobs:
 
       - name: Deploy Amazon ECS task definition
         env:
-          ECS_SERVICE: services-fiapfood
+          ECS_SERVICE: registro-ponto-service
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
