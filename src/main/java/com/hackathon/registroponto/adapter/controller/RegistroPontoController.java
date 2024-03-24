@@ -3,6 +3,7 @@ package com.hackathon.registroponto.adapter.controller;
 import com.hackathon.registroponto.adapter.dto.*;
 import com.hackathon.registroponto.adapter.mapper.RegistroPontoMapper;
 import com.hackathon.registroponto.domain.usecase.RegistroPontoUseCase;
+import com.hackathon.registroponto.external.infrastructure.UploadS3;
 import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class RegistroPontoController {
 
     private final RegistroPontoMapper registroPontoMapper;
     private final RegistroPontoUseCase registroPontoUseCase;
+    private final UploadS3 uploadS3;
 
     public ResponseEntity<RegistroPontoResponse> registrarPonto(RegistroPontoRequest registroPontoRequest){
         var registroPonto = registroPontoMapper.registroPontoRequestToRegistroPonto(registroPontoRequest);
@@ -35,8 +37,11 @@ public class RegistroPontoController {
 
     }
 
-    public ByteArrayOutputStream gerarRelatorio(UUID funcionarioId) throws DocumentException {
+    public ByteArrayOutputStream gerarRelatorio(UUID funcionarioId) throws Exception {
 
-        return registroPontoUseCase.gerarRelatorio(funcionarioId);
+        ByteArrayOutputStream byteArrayOutputStream = registroPontoUseCase.gerarRelatorio(funcionarioId);
+        uploadS3.process(byteArrayOutputStream);
+
+        return byteArrayOutputStream;
     }
 }
