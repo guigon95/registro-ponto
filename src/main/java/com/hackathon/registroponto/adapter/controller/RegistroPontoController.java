@@ -4,7 +4,6 @@ import com.hackathon.registroponto.adapter.dto.*;
 import com.hackathon.registroponto.adapter.mapper.RegistroPontoMapper;
 import com.hackathon.registroponto.domain.usecase.RegistroPontoUseCase;
 import com.hackathon.registroponto.external.infrastructure.UploadS3;
-import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,10 +36,11 @@ public class RegistroPontoController {
 
     }
 
-    public ByteArrayOutputStream gerarRelatorio(UUID funcionarioId) throws Exception {
+    public ByteArrayOutputStream gerarRelatorio(UUID funcionarioId, String header) throws Exception {
 
         ByteArrayOutputStream byteArrayOutputStream = registroPontoUseCase.gerarRelatorio(funcionarioId);
-        uploadS3.process(byteArrayOutputStream);
+
+        uploadS3.process(byteArrayOutputStream, header);
 
         return byteArrayOutputStream;
     }

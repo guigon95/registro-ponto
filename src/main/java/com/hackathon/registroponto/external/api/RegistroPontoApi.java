@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -50,9 +52,11 @@ public class RegistroPontoApi {
     }
 
     @PostMapping("/pdf")
-    public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request) throws Exception {
+    public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request, HttpServletRequest httpServletRequest) throws Exception {
 
-        ByteArrayOutputStream pdfStream = registroPontoController.gerarRelatorio(request.getFuncionarioId());
+        String header = httpServletRequest.getHeader("x-amz-meta-pigeon");
+
+        ByteArrayOutputStream pdfStream = registroPontoController.gerarRelatorio(request.getFuncionarioId(), header);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
