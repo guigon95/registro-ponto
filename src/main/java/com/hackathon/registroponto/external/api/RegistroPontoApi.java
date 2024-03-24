@@ -50,7 +50,7 @@ public class RegistroPontoApi {
         return registroPontoController.obterRegistros(obterRegistrosRequest);
     }
 
-    @PostMapping("/pdf")
+    //@PostMapping("/pdf")
     public ResponseEntity<byte[]> exportPdf(@RequestBody ObterRegistrosRequest request) throws DocumentException {
 
         ByteArrayOutputStream pdfStream = registroPontoUseCase.gerarRelatorio(request.getFuncionarioId());
