@@ -19,10 +19,10 @@ public class RegistroPontoController {
     private final RegistroPontoUseCase registroPontoUseCase;
     private final UploadS3 uploadS3;
 
-    public ResponseEntity<RegistroPontoResponse> registrarPonto(RegistroPontoRequest registroPontoRequest){
+    public RegistroPontoResponse registrarPonto(RegistroPontoRequest registroPontoRequest){
         var registroPonto = registroPontoMapper.registroPontoRequestToRegistroPonto(registroPontoRequest);
 
-        return ResponseEntity.ok(registroPontoMapper.registroPontoToRegistroPontoResponse(registroPontoUseCase.registrarPonto(registroPonto)));
+        return registroPontoMapper.registroPontoToRegistroPontoResponse(registroPontoUseCase.registrarPonto(registroPonto));
 
     }
 
