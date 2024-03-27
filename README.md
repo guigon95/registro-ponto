@@ -2,8 +2,8 @@
 
 API responsável pelo registro de ponto de entradas, saídas,
 inicio de intervalo e retorno de intervalo.
-Além disso, a api é responsável por gerar relatórios de funcionários
-referente ao mês anterior à solicitação e geração de PDF
+Além disso, o microserviço é responsável por gerar relatórios de funcionários
+referente ao mês anterior à solicitação, geração de PDF
 e posterior envio ao sistema de envio de e-mails.
 
 
