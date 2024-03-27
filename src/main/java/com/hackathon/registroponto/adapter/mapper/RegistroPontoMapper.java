@@ -1,8 +1,12 @@
 package com.hackathon.registroponto.adapter.mapper;
 
+import com.hackathon.registroponto.adapter.dto.ObterRegistrosRequest;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoRequest;
 import com.hackathon.registroponto.adapter.dto.RegistroPontoResponse;
+import com.hackathon.registroponto.adapter.dto.RelatorioResponse;
+import com.hackathon.registroponto.domain.model.ObterRegistros;
 import com.hackathon.registroponto.domain.model.RegistroPonto;
+import com.hackathon.registroponto.domain.model.Relatorio;
 import com.hackathon.registroponto.external.infrastructure.entity.RegistroPontoEntity;
 import org.mapstruct.Mapper;
 
@@ -15,7 +19,9 @@ public interface RegistroPontoMapper {
 
     RegistroPonto registroPontoRequestToRegistroPonto(RegistroPontoRequest registroPontoRequest);
 
-    RegistroPontoResponse productToProductResponse(RegistroPonto registroPonto);
+    RegistroPontoResponse registroPontoToRegistroPontoResponse(RegistroPonto registroPonto);
 
+    ObterRegistros obterRegistrosRequestToObterRegistros(ObterRegistrosRequest obterRegistrosRequest);
 
+    RelatorioResponse relatorioToRelatorioResponse(Relatorio relatorio);
 }

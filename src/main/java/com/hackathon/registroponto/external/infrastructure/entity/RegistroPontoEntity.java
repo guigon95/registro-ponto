@@ -1,8 +1,8 @@
 package com.hackathon.registroponto.external.infrastructure.entity;
 
-import com.hackathon.registroponto.domain.TipoRegistro;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 public class RegistroPontoEntity {
 
@@ -21,12 +22,7 @@ public class RegistroPontoEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private LocalDate dataPonto;
-
-    private LocalTime horaPonto;
-
-    @Enumerated(EnumType.STRING)
-    private TipoRegistro tipoRegistro;
+    private LocalDateTime dataHoraPonto;
 
     private UUID funcionarioId;
 
