@@ -12,8 +12,8 @@ on:
   push:
 
 env:
-  ECS_CLUSTER: registro-ponto-cluster
-  ECR_REPOSITORY: registro-ponto
+  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+  ECR_REPOSITORY: ${{ secrets.ECS_CLUSTER }}
 
 jobs:
 
